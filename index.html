@@ -8,14 +8,40 @@
   </head>
   <body>
 
-  <h1>Get your Horoscope:</h1>
+  <h1>Input Students</h1>
 
-  <input type="text" id="name">
+    <!-- maybe this is a drop down with all names -->
+   <!-- <select id="pair">
+      <option></option>
+      <option value="x">Pair 1</option>
+      <option value="y">Pair 2</option>
+      <option value="z">Z</option>
+   </select> -->
+   
+  <label for ="rosterInput">Enter Students (one per line):</label><br>
+  <textarea id="rosterInput". name="rosterInput". rows="8" cols="40" placeholder="Type a name, press enter, and repeat"></textarea>
+  <br>
 
-  <button id="startButton">Go!</button>
+  
+  <select id="studentSeperator1"></select>
+  <select id="studentSeperator2"></select>
+  <br>
+  <select id="studentSeperator3"></select>
+  <select id="studentSeperator4"></select>
+  <br>
+  <select id="studentSeperator5"></select>
+  <select id="studentSeperator6"></select>
+  <br>
+  <br>
+  
+  <button id="startButton">Start</button>
+  <button id="resetButton">Reset</button>
+<br><br>
+  <button id="saveButton">Save Roster</button>
+  <button id="retrieveButton">Retrieve Roster</button>
 
-  <div id="sign"></div>
-
+  <table id="table"></table>
+ 
   <img id="image">
 
   <div id="message"></div>
