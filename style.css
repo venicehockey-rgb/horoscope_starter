@@ -16,3 +16,31 @@ th, td {
 #color00,#color01, #color10, #color11 {
   background: rgb(233, 128, 195);
 }
+
+#color02,#color03, #color12, #color13 {
+  background: rgb(9, 235, 137);
+}
+
+#color04,#color05, #color14, #color15 {
+  background: rgb(74, 109, 237);
+}
+
+#color06,#color07, #color16, #color17 {
+  background: rgb(238, 67, 67);
+}
+
+#color20,#color21, #color30, #color31 {
+  background: rgb(235, 212, 9);
+}
+
+#color22,#color23, #color32, #color33 {
+  background: rgb(9, 235, 224);
+}
+
+#color24,#color25, #color34, #color35 {
+  background: rgb(235, 130, 9);
+}
+
+#color26,#color27, #color36, #color37 {
+  background: rgb(209, 9, 235);
+}
