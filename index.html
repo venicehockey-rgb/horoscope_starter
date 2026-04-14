@@ -8,6 +8,8 @@
   </head>
   <body>
 
+  <div id="container">
+
   <h1>Input Students</h1>
 
     <!-- maybe this is a drop down with all names -->
@@ -18,10 +20,12 @@
       <option value="z">Z</option>
    </select> -->
    
-  <label for ="rosterInput">Enter Students (one per line):</label><br>
-  <textarea id="rosterInput". name="rosterInput". rows="8" cols="40" placeholder="Type a name, press enter, and repeat"></textarea>
-  <br>
+  <label for ="rosterInput">Enter students with an emtpy line between each name :</label><br>
+  <textarea id="rosterInput". name="rosterInput". rows="8" cols="40" placeholder="Type a name, press enter twice, and repeat"></textarea>
 
+  <br>
+    <button id="startButton">Start</button>
+  <br>
   
   <select id="studentSeperator1"></select>
   <select id="studentSeperator2"></select>
@@ -31,15 +35,12 @@
   <br>
   <select id="studentSeperator5"></select>
   <select id="studentSeperator6"></select>
-  <br>
-  <br>
+
   
-  <button id="startButton">Start</button>
-  <button id="resetButton">Reset</button>
-<br><br>
-  <button id="saveButton">Save Roster</button>
-  <button id="randomizeButton">Randomize Roster</button>
-  <button id="retrieveButton">Retrieve Roster</button>
+  <br>
+
+  <button id="saveSep">Randomize</button>
+  <br>
 
   <table id="table"></table>
  
@@ -49,5 +50,8 @@
 
   <script src="script.js"></script>
     
+
+  </div>
+
   </body>
 </html>

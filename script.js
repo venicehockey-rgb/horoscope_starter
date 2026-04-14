@@ -1,35 +1,18 @@
 
 document.getElementById("startButton").addEventListener("click",process);
-document.getElementById("saveButton").addEventListener("click",save);
-document.getElementById("retrieveButton").addEventListener("click",retrieve);
-document.getElementById("resetButton").addEventListener("click",reset);
-document.getElementById("randomizeButton").addEventListener("click",randomize);
+document.getElementById("saveSep").addEventListener("click",randomize);
 
-let students = [];
+let roster = [];
 let nextId = 0;
 let roomRows = 4;
 let roomCols = 8;
 
-let mSeats = ["00","02","04", "06", "20", "22", "24", "26"];
+ let mSeats = ["00","02","04", "06", "20", "22", "24", "26"];
+ 
 
-function save(){    
-    let s = JSON.stringify(students);
-    localStorage.setItem("students", s);
-}
-
-function retrieve(){    
-    let s = localStorage.getItem("students");
-    if (s) {
-        students = JSON.parse(s);
-    } else {
-        students=[];
-    }
-    
-    console.log(students)
-}
 
 function process(){
-    students=[];
+    roster=[];
     
     let s = document.getElementById("rosterInput").value;
     let nameArray = s.split("\n\n")
@@ -38,55 +21,38 @@ function process(){
     for(let i = 0; i < nameArray.length; i++){
         let name = nameArray[i].trim();
         if (name!== "") {
-            students.push(new Student(name));
+            roster.push(new Student(name));
         }
     }
 
-    console.log(students)
+    console.log(roster)
     buildDropdowns();
-    seatStudents();
 }
 
 function seatStudents(){
-
-    console.log(students.sort);
     let o = "";
     let count = 0;
 
-    //builds html table
     for(let rows = 0; rows < roomRows; rows++){
         o += "<tr>";
-
         for(let cols = 0; cols < roomCols; cols++){
-            
             o+= "<td id=color" + rows + cols + "></td>"
-
         }
-
         o += "</tr>";
-
     }
 
-    //write the built table to the page
     document.getElementById("table").innerHTML = o;
 
-    /*
-        const arr = ["joe","mary","matt"];
-        arr.splice(1, 0, ""); // index 1, remove 0 items, insert 99
-        console.log(arr); // ["joe","","mary","matt"]
-*/
-
-
-    let n=students.length;
+    let n=roster.length;
     let numTables;
     if (n % 4 === 0) {
         numTables=n/4;
-    } else if (n % 4 === 1) {
-        numTables=Math.floor(n/4);
+    } else if (n % 4 === 1 || n % 4 === 2) {
+        numTables=Math.ceil(n/4);
     } else {
         numTables=Math.floor(n/4)+1;
     }
-    //add students to table
+   
     for(let j = 0; j < 4; j++){
         let row, col;
         for(let i = 0; i < numTables; i++){
@@ -105,18 +71,20 @@ function seatStudents(){
                 col = parseInt(mSeats[i][1]) + 1;
             }
 
-            document.getElementById("color" + row + col ).innerHTML = students[count].name
-            count++;
+            if (count<roster.length) {
+                document.getElementById("color" + row + col ).innerHTML = roster[count].name
+                count++;
+            }
         }
     }
 }
 
 function buildDropdowns(){
-    let a = "";
+    let a = "<option value=''></option>";
 
-    for(let i = 0; i < students.length; i++){
+    for(let i = 0; i < roster.length; i++){
     
-        a += "<option value='" + students[i].id + "'>" + students[i].name + "</option>"
+        a += "<option value='" + roster[i].id + "'>" + roster[i].name + "</option>"
 
     }
     for (let i=1; i<=6; i++) {
@@ -127,19 +95,90 @@ function buildDropdowns(){
 }
 
 function reset() {
-    students = [];
+    roster = [];
     seatStudents();
 }
 
 function randomize() {
-    let m =students.length, t, i;
+ let one = document.getElementById("studentSeperator1").value;
+ let two = document.getElementById("studentSeperator2").value;
+ let three = document.getElementById("studentSeperator3").value;
+ let four = document.getElementById("studentSeperator4").value;
+ let five = document.getElementById("studentSeperator5").value;
+ let six = document.getElementById("studentSeperator6").value;
+
+ console.log(one, two, three, four, five, six);
+    shuffle();
+    seatStudents();
+    while(separate(one, two, three, four, five, six)) {
+        shuffle();
+        seatStudents();
+    }
+}
+function shuffle() {
+    let m =roster.length, t, i;
     while (m) {
         i=Math.floor(Math.random() *m--);
-        t=students[m];
-        students[m]=students[i];
-        students[i]=t;
+        t=roster[m];
+        roster[m]=roster[i];
+        roster[i]=t;
     }
-    seatStudents();
+}
+
+function getTable(name){
+    let n=roster.length;
+    let numTables;
+    if (n % 4 === 0) {
+        numTables=n/4;
+    } else if (n % 4 === 1 || n % 4 === 2) {
+        numTables=Math.ceil(n/4);
+    } else {
+        numTables=Math.floor(n/4)+1;
+    }
+
+    for(let i=0; i<numTables; i++) {
+        let row = parseInt(mSeats[i][0]);
+        let col = parseInt(mSeats[i][1]);
+
+        let spots= [
+            document.getElementById("color" + row + col),
+            document.getElementById("color" + (row+1) + col),
+            document.getElementById("color" + row + (col+1)),
+            document.getElementById("color" + (row+1) + (col+1))
+        ];
+
+        for(let j=0; j<spots.length; j++) {
+            if (spots[j].innerHTML === name) {
+                return i;
+            }
+        }
+    }
+    return false;
+}   
+
+function separate(one, two, three, four, five, six) {
+    let pairs =[[one, two], [three, four], [five, six]];
+    
+    for (let i=0; i<pairs.length; i++) {
+        if (pairs[i][0] && pairs[i][1]){
+        let nameA;
+            let nameB;
+            for (let j=0; j<roster.length; j++) {
+                if(roster[j].id==pairs[i][0]) {
+                    nameA=roster[j].name;
+                }
+                if(roster[j].id==pairs[i][1]) {
+                    nameB=roster[j].name;
+                }
+            }
+            if (nameA && nameB) {
+                if (getTable(nameA) === getTable(nameB)) {
+                    return true;
+                }
+            }
+        }
+    } 
+    return false;
 }
 
 class Student {
